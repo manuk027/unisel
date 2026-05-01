@@ -8,6 +8,7 @@ export interface ProductType extends Document {
     description: string;
     image: string;
     isSold: boolean;
+    quantity: number;
 }
 
 const productSchema: Schema<ProductType> = new Schema({
@@ -34,6 +35,10 @@ const productSchema: Schema<ProductType> = new Schema({
     image: {
         type: String,
         required: true,
+    },
+    quantity: {
+        type: Number,
+        default: 1,
     },
     isSold: {
         type: Boolean,
