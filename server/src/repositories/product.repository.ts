@@ -9,10 +9,10 @@ export const findById = async (id: string) => {
     return await Product.findById(id);
 };
 
-export const findAvailbale = async (filters: any = {}) => {
+export const findAvailable = async (filters: any = {}) => {
     return await Product.find({
+        ...filters,
         isSold: false,
-        ...filters
     });
 }
 
