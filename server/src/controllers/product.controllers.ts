@@ -49,3 +49,5 @@ const markAsSold = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
+
+export { createProduct, getProductById, getAllProducts, updateProduct, markAsSold };
