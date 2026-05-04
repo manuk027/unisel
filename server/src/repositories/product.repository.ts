@@ -17,7 +17,7 @@ export const findAvailable = async (filters: any = {}) => {
 }
 
 export const updateById = async (id: string, data: UpdateProductDTO) => {
-    return await Product.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+    return await Product.findOneAndUpdate({ _id: id, isSold: false }, data, { new: true, runValidators: true });
 }
 
 export const markAsSold = async (productIds: string[]) => {

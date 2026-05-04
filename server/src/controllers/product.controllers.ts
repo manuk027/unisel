@@ -3,8 +3,9 @@ import { NextFunction, Request, Response } from 'express'
 
 const createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const product = await productService.createProduct(req.body);
-        res.status(201).json(product);
+        const userId = (req as any).user.id;
+        const product = await productService.createProduct({ ...req.body, userId, });
+        res.status(201).json({ success: true, data: product });
     } catch (error) {
         next(error);
     }
@@ -14,7 +15,7 @@ const getProductById = async (req: Request<{ id: string }>, res: Response, next:
     try {
         const { id } = req.params;
         const product = await productService.showProductDetails(id);
-        res.status(200).json(product);
+        res.status(200).json({ success: true, data: product });
     } catch (error) {
         next(error);
     }
@@ -23,7 +24,7 @@ const getProductById = async (req: Request<{ id: string }>, res: Response, next:
 const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const products = await productService.showProducts();
-        res.status(200).json(products);
+        res.status(200).json({ success: true, data: products });
     } catch (error) {
         next(error);
     }
@@ -32,22 +33,11 @@ const getAllProducts = async (req: Request, res: Response, next: NextFunction) =
 const updateProduct = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        const data = req.body;
-        const updatedProduct = await productService.updateProduct(id, data);
-        res.status(200).json(updatedProduct);
+        const updatedProduct = await productService.updateProduct(id, req.body);
+        res.status(200).json({ success: true, data: updateProduct });
     } catch (error) {
         next(error);
     }
 }
 
-const markAsSold = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { productIds } = req.body;
-        const result = await productService.markProductAsSold(productIds);
-        res.status(200).json(result);
-    } catch (error) {
-        next(error);
-    }
-};
-
-export { createProduct, getProductById, getAllProducts, updateProduct, markAsSold };
+export { createProduct, getProductById, getAllProducts, updateProduct };

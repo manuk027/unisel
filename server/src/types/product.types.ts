@@ -8,7 +8,6 @@ export type CreateProductDTO = {
     description: string;
     image: string;
     isSold: boolean;
-    quantity: number;
 }
 
 export type UpdateProductDTO = Partial<CreateProductDTO>;

@@ -8,42 +8,45 @@ export interface ProductType extends Document {
     description: string;
     image: string;
     isSold: boolean;
-    quantity: number;
 }
 
 const productSchema: Schema<ProductType> = new Schema({
     name: {
         type: String,
         required: true,
+        trim: true,
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: true,
+        index: true,
     },
     category: {
         type: String,
         required: true,
+        trim: true,
+        index: true,
     },
     price: {
         type: Number,
         required: true,
-        min: 0
+        min: 1,
+        index: true,
     },
     description: {
         type: String,
         required: true,
+        minlength: 10,
     },
     image: {
         type: String,
         required: true,
     },
-    quantity: {
-        type: Number,
-        default: 1,
-    },
     isSold: {
         type: Boolean,
         default: false,
+        index: true,
     }
 }, { timestamps: true });
 

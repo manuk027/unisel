@@ -1,12 +1,12 @@
 import express from "express";
-import { createProduct, getProductById, getAllProducts, updateProduct, markAsSold } from "../controllers/product.controllers.js";
+import { createProduct, getProductById, getAllProducts, updateProduct } from "../controllers/product.controllers.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 const productRouter = express.Router();
 
-productRouter.post("/", createProduct);
-productRouter.get("/", getAllProducts);
-productRouter.get("/:id", getProductById);
+productRouter.post("/", authMiddleware, createProduct);
+productRouter.get("/", authMiddleware, getAllProducts);
 productRouter.put("/:id", updateProduct);
-productRouter.patch("/mark-sold", markAsSold);
+productRouter.get("/:id", getProductById);
 
-export default productRouter
+export default productRouter;
