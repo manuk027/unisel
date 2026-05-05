@@ -1,5 +1,5 @@
 import { CreateProductDTO, UpdateProductDTO } from "../types/product.types.js";
-import Product from "../model/productSchema.js";
+import Product from "../model/product.model.js";
 
 export const create = async (data: CreateProductDTO) => {
     return await Product.create(data);

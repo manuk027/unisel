@@ -1,4 +1,4 @@
-import User from "../model/userSchema.js";
+import User from "../model/user.model.js";
 import { CreateUserDTO, UpdateUserDTO } from "../types/user.types.js";
 
 const findUserByEmail = (email: string) => {

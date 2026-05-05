@@ -1,4 +1,4 @@
-import User from "../model/userSchema.js";
+import User from "../model/user.model.js";
 import { NextFunction, Request, Response } from 'express'
 import { register, login, googleAuth } from "../services/auth.service.js";
 
