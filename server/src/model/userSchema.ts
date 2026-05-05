@@ -1,4 +1,4 @@
-        import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface UserType extends Document {
     email: string;
@@ -16,13 +16,16 @@ const userSchema: Schema<UserType> = new Schema({
         required: true,
         unique: true,
         lowercase: true,
+        trim: true,
     },
     name: {
         type: String,
         required: true,
+        trim: true,
     },
     password: {
         type: String,
+        select: false,
     },
     avatar: {
         type: String,

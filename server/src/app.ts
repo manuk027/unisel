@@ -1,6 +1,7 @@
 import express from "express";
 import productRoutes from "./routes/product.routes.js";
 import { Request, Response, NextFunction } from "express";
+import authRouter from "./routes/auth.routes.js";
 
 export const app = express();
 
@@ -8,6 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/products", productRoutes);
+app.use("/api/auth", authRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Route not found" });
