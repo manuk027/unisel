@@ -1,7 +1,16 @@
 import jwt from 'jsonwebtoken';
 
-export const generateToken = (payload: any) => {
-    return jwt.sign(payload, process.env.JWT_SECRET!, {
+type JwtPayload = {
+    id: string;
+}
+
+
+export const generateToken = (payload: JwtPayload) => {
+    const JWT_SECRET = process.env.JWT_SECRET;
+    if (!JWT_SECRET) {
+        throw new Error("JWT_SECRET is not defined");
+    }
+    return jwt.sign(payload, JWT_SECRET, {
         expiresIn: "7d",
     });
 }

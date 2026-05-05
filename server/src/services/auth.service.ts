@@ -16,7 +16,7 @@ const register = async (data: { email: string, name: string, password: string })
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await createUser({ email, name, password: hashedPassword, authProviders: ["local"] });
-    const token = generateToken({ id: user._id });
+    const token = generateToken({ id: user._id.toString() });
     return { token, user: { id: user._id, email: user.email, name: user.name } };
 };
 
@@ -37,7 +37,7 @@ const login = async (data: { email: string, password: string }) => {
     if (!isMatch) {
         throw new Error("Invalid Credentials");
     }
-    const token = generateToken({ id: user._id });
+    const token = generateToken({ id: user._id.toString() });
     return { token, user: { id: user._id, email: user.email, name: user.name } };
 };
 
@@ -51,7 +51,7 @@ const googleAuth = async (data: { email: string, name: string, googleId: string,
     }
     let user = await findUserByGoogleId(googleId);
     if (user) {
-        const token = generateToken({ id: user._id });
+        const token = generateToken({ id: user._id.toString() });
         return { token, user: { id: user._id, email: user.email, name: user.name } };
     }
     user = await findUserByEmail(email);
@@ -65,7 +65,7 @@ const googleAuth = async (data: { email: string, name: string, googleId: string,
     if (!user) {
         throw new Error("User creation/linking failed.");
     }
-    const token = generateToken({ id: user._id });
+    const token = generateToken({ id: user._id.toString() });
     return { token, user: { id: user._id, email: user.email, name: user.name } }
 }
 
