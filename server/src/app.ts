@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import productRoutes from "./routes/product.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import cartRouter from "./routes/cart.routes.js";
+import checkoutRouter from "./routes/checkout.routes.js";
 
 export const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/checkout", checkoutRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Route not found" });
