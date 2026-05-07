@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import navLogo from "../assets/images/navbar.png";
 import { type RootState, type AppDispatch } from "../app/store";
 import { logout } from "../features/auth/authSlice";
@@ -10,6 +10,7 @@ const Navbar = () => {
     const toggleMenu = () => setIsOpen(!isOpen);
     const dispatch = useDispatch<AppDispatch>();
     const { user, token, } = useSelector((state: RootState) => state.auth);
+    const location = useLocation();
     const handleLogout = () => {
         dispatch(logout());
     };
@@ -21,19 +22,20 @@ const Navbar = () => {
                     <img src={navLogo} alt="Unisel Logo" className="h-8 md:h-9 w-auto object-contain" />
                 </div>
                 <nav className="hidden md:flex flex-grow justify-evenly items-center px-4 lg:px-8 text-gray-600 font-medium text-sm">
-                    <Link to="/" className="text-blue-600 border-b-2 border-blue-600 pb-1 flex items-center gap-2">
+                    <Link to="/" className={`flex items-center gap-2 pb-1 transition ${location.pathname === "/" ? "text-blue-600 border-b-2 border-blue-600" : "hover:text-blue-600"}`}>
                         <i className="fa-solid fa-house"></i>
                         Home
                     </Link>
-                    <Link to="/sell" className="hover:text-blue-600 transition flex items-center gap-2">
+
+                    <Link to="/sell" className={`flex items-center gap-2 pb-1 transition ${location.pathname === "/sell" ? "text-blue-600 border-b-2 border-blue-600" : "hover:text-blue-600"}`}>
                         <i className="fa-solid fa-tag"></i>
                         Sell
                     </Link>
-                    <Link to="/buy" className="hover:text-blue-600 transition flex items-center gap-2">
+                    <Link to="/buy" className={`flex items-center gap-2 pb-1 transition ${location.pathname === "/buy" ? "text-blue-600 border-b-2 border-blue-600" : "hover:text-blue-600"}`}>
                         <i className="fa-solid fa-shapes"></i>
                         Buy
                     </Link>
-                    <Link to="/cart" className="hover:text-blue-600 transition flex items-center gap-2 relative">
+                    <Link to="/cart" className={`flex items-center gap-2 pb-1 relative transition ${location.pathname === "/cart" ? "text-blue-600 border-b-2 border-blue-600" : "hover:text-blue-600"}`}>
                         <i className="fa-solid fa-cart-shopping"></i>
                         Cart
                         <span className="absolute -top-2 -right-4 bg-blue-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">2</span>
@@ -61,7 +63,6 @@ const Navbar = () => {
                                         <i className="fa-regular fa-user"></i>
                                     )
                                 }
-
                                 {user?.name}
                             </span>
 
