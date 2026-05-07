@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import navLogo from "../../assets/images/navbar.png";
 import { type AppDispatch, type RootState } from "../../app/store";
 import { loginUser } from "../../features/auth/authSlice";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../../features/auth/firebase";
+import { googleLogin } from "../../features/auth/authSlice";
 
 type LoginForm = {
   email: string;
@@ -15,22 +18,31 @@ type LoginForm = {
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error, token } = useSelector(
-    (state: RootState) => state.auth
-  );
-
+  const { loading, error, token } = useSelector((state: RootState) => state.auth);
   const { register, handleSubmit, formState: { errors }, } = useForm<LoginForm>();
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
+    if (token) { navigate("/"); }
   }, [token, navigate]);
 
   const onSubmit = async (data: LoginForm) => {
     await dispatch(loginUser(data));
   };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      const email = user.email || "";
+      const name = user.displayName || "";
+      const googleId = user.uid || "";
+      const avatar = user.photoURL || "";
+      await dispatch(googleLogin({ email, name, googleId, avatar }));
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-[#F8F9FC] flex flex-col items-center justify-center p-4 font-sans select-none">
@@ -111,7 +123,7 @@ const LoginPage = () => {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-        </form>ƒ
+        </form>
         <div className="relative my-8 shrink-0">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-100"></div>
@@ -121,6 +133,7 @@ const LoginPage = () => {
           </div>
         </div>
         <button
+          onClick={handleGoogleLogin}
           disabled={loading}
           className="w-full shrink-0 flex items-center justify-center gap-3 bg-white border border-gray-100 py-3.5 rounded-2xl hover:bg-gray-50 transition-all font-bold text-slate-700 text-sm shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
         >

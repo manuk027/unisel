@@ -52,7 +52,7 @@ const googleAuth = async (data: { email: string, name: string, googleId: string,
     let user = await findUserByGoogleId(googleId);
     if (user) {
         const token = generateToken({ id: user._id.toString() });
-        return { token, user: { id: user._id, email: user.email, name: user.name } };
+        return { token, user: { id: user._id, email: user.email, name: user.name, avatar: user.avatar } };
     }
     user = await findUserByEmail(email);
     if (user) {
@@ -66,7 +66,7 @@ const googleAuth = async (data: { email: string, name: string, googleId: string,
         throw new Error("User creation/linking failed.");
     }
     const token = generateToken({ id: user._id.toString() });
-    return { token, user: { id: user._id, email: user.email, name: user.name } }
+    return { token, user: { id: user._id, email: user.email, name: user.name, avatar: user.avatar } }
 }
 
 export { register, login, googleAuth };
