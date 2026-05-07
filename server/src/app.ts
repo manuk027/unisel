@@ -4,9 +4,11 @@ import productRoutes from "./routes/product.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import checkoutRouter from "./routes/checkout.routes.js";
+import cors from "cors";
 
 export const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
