@@ -48,7 +48,7 @@ const Navbar = () => {
                                 <i className="fa-regular fa-user"></i>
                                 Login
                             </Link>
-                            <Link to="/signup" className="px-5 py-2 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition shadow-md flex items-center gap-2 text-sm">
+                            <Link to="/register" className="px-5 py-2 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition shadow-md flex items-center gap-2 text-sm">
                                 <i className="fa-solid fa-user-plus text-[10px]"></i>
                                 Sign Up
                             </Link>
@@ -106,7 +106,7 @@ const Navbar = () => {
                         {!token ? (
                             <div className="flex flex-col space-y-3">
                                 <Link to="/login" className="w-full py-3 text-center text-gray-700 font-medium border border-gray-200 rounded-xl">Login</Link>
-                                <Link to="/signup" className="w-full py-3 text-center bg-blue-600 text-white font-medium rounded-xl shadow-lg shadow-blue-100">Sign Up</Link>
+                                <Link to="/register" className="w-full py-3 text-center bg-blue-600 text-white font-medium rounded-xl shadow-lg shadow-blue-100">Sign Up</Link>
                             </div>
                         ) : (
                             <div className="flex flex-col space-y-4">

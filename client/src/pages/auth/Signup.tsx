@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import navLogo from "../../assets/images/navbar.png";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatch, type RootState } from "../../app/store";
-import { registerUser } from "../../features/auth/authSlice";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { googleLogin, registerUser } from "../../features/auth/authSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../../features/auth/firebase";
 
 type SignupForm = {
     name: string;
@@ -39,6 +38,20 @@ const SignUpPage = () => {
         const { confirm, phone, ...userData } = data;
         await dispatch(registerUser(userData));
     };
+
+    const handleGoogleSignup = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const user = result.user;
+            const email = user.email || "";
+            const name = user.displayName || "";
+            const googleId = user.uid || "";
+            const avatar = user.photoURL || "";
+            await dispatch(googleLogin({ email, name, googleId, avatar }));
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div className="h-screen w-screen overflow-hidden bg-[#F8F9FC] flex flex-col items-center justify-center p-4 font-sans select-none">
@@ -304,8 +317,7 @@ const SignUpPage = () => {
                     </div>
                 </div>
 
-                {/* Google Button */}
-                <button className="w-full shrink-0 flex items-center justify-center gap-3 bg-white border border-gray-100 py-2.5 rounded-2xl hover:bg-gray-50 transition-all font-bold text-slate-700 text-sm shadow-sm">
+                <button onClick={handleGoogleSignup} className="w-full shrink-0 flex items-center justify-center gap-3 bg-white border border-gray-100 py-2.5 rounded-2xl hover:bg-gray-50 transition-all font-bold text-slate-700 text-sm shadow-sm">
                     <img
                         src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png"
                         className="w-5 h-5 object-contain"
