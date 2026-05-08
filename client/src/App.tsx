@@ -6,9 +6,11 @@ import SellProduct from "./pages/Sell";
 import PrivateRoute from "./routes/PrivateRoutes";
 import PublicRoute from "./routes/PublicRoutes";
 
+
 const App = () => {
   return (
     <Routes>
+      
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
       <Route path="/register" element={<PublicRoute><SignUpPage /></PublicRoute>} />

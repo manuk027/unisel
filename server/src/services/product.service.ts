@@ -3,7 +3,7 @@ import { CreateProductDTO, UpdateProductDTO } from '../types/product.types.js';
 import mongoose from 'mongoose';
 
 const createProduct = async (data: CreateProductDTO) => {
-    if (!data.name?.trim() || !data.category?.trim() || !data.description?.trim() || !data.image?.trim()) {
+    if (!data.name?.trim() || !data.category?.trim() || !data.description?.trim()) {
         throw new Error("All fields are mandatory, fill all the details.");
     }
     if (!data.userId || !mongoose.Types.ObjectId.isValid(data.userId)) {
@@ -16,7 +16,7 @@ const createProduct = async (data: CreateProductDTO) => {
     if (data.description.trim().length < 10) {
         throw new Error("The description should contain at least 10 characters.");
     }
-    const productData = { ...data, name: data.name.trim(), category: data.category.trim(), description: data.description.trim(), image: data.image.trim(), price, isSold: false };
+    const productData = { ...data, name: data.name.trim(), category: data.category.trim(), description: data.description.trim(), image: data.images, price, isSold: false };
     return productRepository.create(productData);
 };
 
@@ -57,9 +57,10 @@ const updateProduct = async (id: string, data: UpdateProductDTO) => {
         }
         updateData.description = data.description.trim();
     }
-    if (data.image !== undefined) {
-        if (!data.image.trim()) throw new Error("Image cannot be empty.");
-        updateData.image = data.image.trim();
+    if (data.images !== undefined) {
+        if (data.images.length < 4) throw new Error("Atleast 1 images is mandatory.");
+        if (data.images.length > 4) throw new Error("Upload no more than 4 images.");
+        updateData.image = data.images;
     }
     if (data.price !== undefined) {
         const price = Number(data.price);

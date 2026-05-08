@@ -6,7 +6,7 @@ export type CreateProductDTO = {
     category: string;
     price: number;
     description: string;
-    image: string;
+    images: string[];
     isSold: boolean;
 }
 

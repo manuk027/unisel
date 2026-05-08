@@ -9,6 +9,7 @@ import { loginUser } from "../../features/auth/authSlice";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../features/auth/firebase";
 import { googleLogin } from "../../features/auth/authSlice";
+import { toast } from "react-toastify";
 
 type LoginForm = {
   email: string;
@@ -39,7 +40,9 @@ const LoginPage = () => {
       const googleId = user.uid || "";
       const avatar = user.photoURL || "";
       await dispatch(googleLogin({ email, name, googleId, avatar }));
+      toast.success("LoggedIn successfully", { containerId: "authToast", });
     } catch (error) {
+      toast.error("Error Logginin", { containerId: "authToast", });
       console.error(error);
     }
   }

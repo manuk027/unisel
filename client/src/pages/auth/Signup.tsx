@@ -8,6 +8,7 @@ import { googleLogin, registerUser } from "../../features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../features/auth/firebase";
+import { toast } from "react-toastify";
 
 type SignupForm = {
     name: string;
@@ -48,7 +49,9 @@ const SignUpPage = () => {
             const googleId = user.uid || "";
             const avatar = user.photoURL || "";
             await dispatch(googleLogin({ email, name, googleId, avatar }));
+            toast.success("SignedIn successfully", { containerId: "authToast", });
         } catch (error) {
+            toast.error("SignedIn successfully", { containerId: "authToast", });
             console.error(error);
         }
     }
@@ -305,8 +308,6 @@ const SignUpPage = () => {
                         Create Account
                     </button>
                 </form>
-
-                {/* Divider */}
                 <div className="relative my-4 shrink-0">
                     <div className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-gray-100"></div>
@@ -316,17 +317,10 @@ const SignUpPage = () => {
                         <span className="bg-white px-4">or</span>
                     </div>
                 </div>
-
                 <button onClick={handleGoogleSignup} className="w-full shrink-0 flex items-center justify-center gap-3 bg-white border border-gray-100 py-2.5 rounded-2xl hover:bg-gray-50 transition-all font-bold text-slate-700 text-sm shadow-sm">
-                    <img
-                        src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png"
-                        className="w-5 h-5 object-contain"
-                        alt="Google"
-                    />
-
+                    <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png" className="w-5 h-5 object-contain" alt="Google" />
                     <span>Continue with Google</span>
                 </button>
-
                 <p className="text-center mt-4 text-gray-500 text-xs font-medium shrink-0">
                     Already have an account?{" "}
                     <Link to="/login" className="text-blue-600 font-bold hover:underline">Login</Link>
