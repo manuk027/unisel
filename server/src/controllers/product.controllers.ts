@@ -40,4 +40,25 @@ const updateProduct = async (req: Request<{ id: string }>, res: Response, next: 
     }
 }
 
-export { createProduct, getProductById, getAllProducts, updateProduct };
+const getMyProducts = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = (req as any).user.id;
+        const products = await productService.showMyProducts(userId);
+        res.status(200).json({ success: true, data: products });
+    } catch (error) {
+        next(error);
+    }
+
+}
+
+const deleteProduct = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const deleteProduct = await productService.deleteProduct(id);
+        res.status(200).json({ success: true, data: deleteProduct });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { createProduct, getProductById, getAllProducts, updateProduct, getMyProducts, deleteProduct };

@@ -26,3 +26,11 @@ export const markAsSold = async (productIds: string[]) => {
         { $set: { isSold: true } },
     );
 }
+
+export const getMyProducts = async (id: string) => {
+    return await Product.find({ userId: id });
+}
+
+export const deletProduct = async (id: string) => {
+    return await Product.deleteOne({ _id: id });
+}

@@ -10,6 +10,7 @@ export type ProductForm = {
 
 export type ProductData = {
     _id: string;
+    images: string[];
     name: string;
     price: number;
     category: | "Electronics" | "Books" | "Fashion" | "Pets" | "Cars" | "Bikes" | "Properties" | "Mobile" | "Vehicle Spares" | "Furniture";
@@ -27,7 +28,19 @@ export const getProducts = async () => {
     return response.data;
 }
 
+export const getMyProducts = async () => {
+    const response = await api.get("/products/my-products");
+    return response.data;
+}
+
 export const getProductDetails = async (id: string) => {
     const response = await api.get(`/products/${id}`);
+    return response.data;
+}
+
+
+export const deleteProduct = async (id: string) => {
+    console.log(id);
+    const response = await api.delete(`/products/${id}`);
     return response.data;
 }

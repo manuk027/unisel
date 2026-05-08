@@ -7,15 +7,16 @@ import PrivateRoute from "./routes/PrivateRoutes";
 import PublicRoute from "./routes/PublicRoutes";
 import ProductListing from "./pages/products/ProductListing";
 import ProductDetails from "./pages/products/ProductDetails";
+import MyProducts from "./pages/products/MyProducts";
 
 const App = () => {
   return (
     <Routes>
-
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
       <Route path="/register" element={<PublicRoute><SignUpPage /></PublicRoute>} />
       <Route path="/sell" element={<PrivateRoute><SellProduct /></PrivateRoute>} />
+      <Route path="/my-products" element={<PrivateRoute><MyProducts /></PrivateRoute>} />
       <Route path="/buy" element={<ProductListing />} />
       <Route path="/product/:productId" element={<ProductDetails />} />
     </Routes>

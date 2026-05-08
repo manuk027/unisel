@@ -87,5 +87,19 @@ const markProductAsSold = async (productIds: string[]) => {
     return productRepository.markAsSold(productIds);
 };
 
+const showMyProducts = async (id: string) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new Error("Invalid user id.");
+    }
+    return await productRepository.getMyProducts(id);
+}
 
-export { createProduct, showProductDetails, showProducts, updateProduct, markProductAsSold };
+const deleteProduct = async (productId: string) => {
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+        throw new Error("Invalid product id.");
+    }
+    return await productRepository.deletProduct(productId);
+}
+
+
+export { createProduct, showProductDetails, showProducts, updateProduct, markProductAsSold, showMyProducts, deleteProduct };
