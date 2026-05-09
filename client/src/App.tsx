@@ -15,6 +15,7 @@ import { type RootState } from "./app/store";
 import { useEffect } from "react";
 import { type AppDispatch } from "./app/store";
 import Checkout from "./pages/Checkout";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -36,6 +37,7 @@ const App = () => {
       <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
       <Route path="/buy" element={<ProductListing />} />
       <Route path="/product/:productId" element={<ProductDetails />} />
+      <Route path="*" element={<NotFound />} />
 
     </Routes>
   );
