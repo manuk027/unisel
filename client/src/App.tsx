@@ -14,6 +14,7 @@ import { fetchCart } from "./features/cart/cartSlice";
 import { type RootState } from "./app/store";
 import { useEffect } from "react";
 import { type AppDispatch } from "./app/store";
+import Checkout from "./pages/Checkout";
 
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,8 +33,10 @@ const App = () => {
       <Route path="/sell" element={<PrivateRoute><SellProduct /></PrivateRoute>} />
       <Route path="/my-products" element={<PrivateRoute><MyProducts /></PrivateRoute>} />
       <Route path="/cart" element={<PrivateRoute><CartPage /></PrivateRoute>} />
+      <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
       <Route path="/buy" element={<ProductListing />} />
       <Route path="/product/:productId" element={<ProductDetails />} />
+
     </Routes>
   );
 };

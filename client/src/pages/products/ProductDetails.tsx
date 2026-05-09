@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { type RootState } from '../../app/store';
 import { useDispatch } from 'react-redux';
 import { type AppDispatch } from '../../app/store';
-import { addItemToCart } from '../../features/cart/cartSlice';
+import { addItemToCart, fetchCart } from '../../features/cart/cartSlice';
 
 const ProductDetails = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -45,7 +45,14 @@ const ProductDetails = () => {
                 toast.info("Item already added to cart", { containerId: "productToast", });
                 return;
             }
+            const latestProduct = await getProductDetails(productId);
+            if (latestProduct.data.isSold) {
+                toast.error("This product has already been sold", { containerId: "productToast", });
+                setProduct(latestProduct.data);
+                return;
+            }
             await dispatch(addItemToCart(productId));
+            await dispatch(fetchCart());
             setIsAddedToCart(true);
             toast.success("Added to cart", { containerId: "productToast", });
         } catch (error) {
@@ -125,23 +132,11 @@ const ProductDetails = () => {
                         </div>
                         <div className="mt-8 lg:mt-auto">
                             <button
-                                disabled={isAddedToCart}
-                                onClick={() => {
-                                    if (productD?._id) {
-                                        handleAddToCart(productD._id);
-                                    }
-                                }}
-                                className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-black text-sm shadow-md transition-all active:scale-95
-    ${isAddedToCart
-                                        ? "bg-green-500 cursor-not-allowed text-white"
-                                        : "bg-blue-600 hover:bg-blue-700 text-white"
-                                    }`}
-                            >
+                                disabled={isAddedToCart || productD?.isSold}
+                                onClick={() => { if (productD?._id && !productD?.isSold) { handleAddToCart(productD._id); } }}
+                                className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-black text-sm shadow-md transition-all active:scale-95 ${productD?.isSold ? "bg-red-500 cursor-not-allowed text-white" : isAddedToCart ? "bg-green-500 cursor-not-allowed text-white" : "bg-blue-600 hover:bg-blue-700 text-white"}`}>
                                 <ShoppingCart size={18} />
-
-                                {isAddedToCart
-                                    ? "Added to Cart"
-                                    : "Add to Cart"}
+                                {productD?.isSold ? "Product Sold" : isAddedToCart ? "Added to Cart" : "Add to Cart"}
                             </button>
                         </div>
                     </div>

@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { type RootState, type AppDispatch } from "../../app/store";
 import { clearItemsFromCart } from "../../features/cart/cartSlice";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { validateCheckoutApi } from "../../features/checkout/checkoutAPI";
 
 const CartPage = () => {
     const navigate = useNavigate();
@@ -13,6 +15,7 @@ const CartPage = () => {
     const items = useSelector((state: RootState) => state.cart.items);
     const [showClearModal, setShowClearModal] = useState(false);
     const totalAmount = items.reduce((total, item) => total + item.productId.price, 0);
+    const [loadingCheckout, setLoadingCheckout] = useState(false);
 
     const handleClearCart = async () => {
         try {
@@ -20,6 +23,18 @@ const CartPage = () => {
             setShowClearModal(false);
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const handleProceedToCheckout = async () => {
+        try {
+            setLoadingCheckout(true);
+            const response = await validateCheckoutApi();
+            if (response.success) navigate("/checkout");
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message || "Checkout validation failed.", { containerId: "productToast", });
+        } finally {
+            setLoadingCheckout(false);
         }
     };
 
@@ -56,17 +71,19 @@ const CartPage = () => {
                                 <span className="text-lg font-bold">Total</span>
                                 <span className="text-2xl font-black text-blue-600">Rs.{totalAmount}</span>
                             </div>
-                            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-100 active:scale-[0.98]">Proceed to Checkout</button>
-                            {items.length > 0 && (
-                                <button onClick={() => setShowClearModal(true)} className="w-full mt-4 border border-red-500 text-red-500 hover:bg-red-50 font-bold py-4 rounded-xl transition-all">Clear Cart</button>
-                            )}
+                            <button
+                                onClick={handleProceedToCheckout}
+                                disabled={items.length === 0 || loadingCheckout}
+                                className={`w-full font-bold py-4 rounded-xl transition-all shadow-lg active:scale-[0.98] ${items.length === 0 || loadingCheckout ? "bg-gray-300 text-gray-500 cursor-not-allowed shadow-none" : "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-100"}`}>
+                                {loadingCheckout ? "Checking Products..." : items.length === 0 ? "Cart is Empty" : "Proceed to Checkout"}
+                            </button>
                         </div>
                     </div>
+                    <button onClick={() => navigate("/buy")} className="mt-10 flex items-center text-blue-600 font-bold hover:gap-2 transition-all">
+                        <ChevronLeft size={20} className="mr-1" />
+                        Continue Shopping
+                    </button>
                 </div>
-                <button onClick={() => navigate("/buy")} className="mt-10 flex items-center text-blue-600 font-bold hover:gap-2 transition-all">
-                    <ChevronLeft size={20} className="mr-1" />
-                    Continue Shopping
-                </button>
             </main>
             {showClearModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">

@@ -3,10 +3,7 @@ import { type ProductData } from "../features/products/productAPI";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-type Props = {
-    product: ProductData;
-    onDelete: (id: string) => void;
-};
+type Props = { product: ProductData; onDelete: (id: string) => void; };
 
 const MyProductCard = ({
     product,
@@ -58,7 +55,7 @@ const MyProductCard = ({
                     <div className="flex gap-1.5 shrink-0">
 
                         <button
-                            onClick={() => {}}
+                            onClick={() => { }}
                             className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                             title="Edit"
                         >
