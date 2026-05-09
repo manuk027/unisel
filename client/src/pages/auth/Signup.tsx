@@ -24,9 +24,7 @@ const SignUpPage = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const password = watch("password");
     const dispatch = useDispatch<AppDispatch>();
-    const { loading, error, token } = useSelector(
-        (state: RootState) => state.auth
-    );
+    const { loading, error, token } = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
 
     useEffect(() => {

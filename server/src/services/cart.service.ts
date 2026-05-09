@@ -1,4 +1,4 @@
-import { addItem, getPopulatedCart, removeItem, clearCart } from "../repositories/cart.repository.js"
+import { addItem, getPopulatedCart, removeItem, clearCart, findCartByUserId } from "../repositories/cart.repository.js"
 import { findById } from "../repositories/product.repository.js";
 import { ProductType } from "../model/product.model.js";
 import mongoose from "mongoose";
@@ -16,6 +16,11 @@ const addToCart = async (userId: string, productId: string) => {
     }
     if (product.isSold) {
         throw new Error("Product is already sold.");
+    }
+    const existingCart = await findCartByUserId(userId);
+    const alreadyExists = existingCart?.items.some((item) => item.productId.toString() === productId);
+    if (alreadyExists) {
+        throw new Error("Product already exists in cart.");
     }
     const cart = await addItem(userId, productId);
     return cart;

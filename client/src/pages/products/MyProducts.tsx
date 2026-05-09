@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
 import { getMyProducts } from "../../features/products/productAPI";
 import { type ProductData } from "../../features/products/productAPI";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { deleteProduct } from "../../features/products/productAPI";
 import { toast } from "react-toastify";
 import NoProductFallback from "../../components/NoProductFallback";
@@ -16,7 +16,6 @@ const MyProducts = () => {
     const fetchProductDetails = async () => {
         try {
             const product = await getMyProducts();
-
             setProducts(product.data);
         } catch (error) {
             console.error(error);
