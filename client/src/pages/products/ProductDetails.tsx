@@ -126,10 +126,9 @@ const ProductDetails = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-6">
-                            <h3 className="text-[9px] font-black text-gray-400 uppercase tracking-widest border-b pb-1 w-fit mb-2">Description</h3>
-                            <p className="text-gray-500 leading-relaxed text-sm line-clamp-4 lg:line-clamp-none">{productD?.description}</p>
-                        </div>
+                        <p className="text-gray-500 leading-relaxed text-sm whitespace-pre-line line-clamp-4 lg:line-clamp-none py-2">
+                            {productD?.description}
+                        </p>
                         <div className="mt-8 lg:mt-auto">
                             <button
                                 disabled={isAddedToCart || productD?.isSold}

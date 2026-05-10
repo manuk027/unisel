@@ -5,6 +5,7 @@ export type ProductForm = {
     price: number;
     category: | "Electronics" | "Books" | "Fashion" | "Pets" | "Cars" | "Bikes" | "Properties" | "Mobile" | "Vehicle Spares" | "Furniture";
     description: string;
+    images: string[];
 };
 
 
@@ -16,6 +17,14 @@ export type ProductData = {
     category: | "Electronics" | "Books" | "Fashion" | "Pets" | "Cars" | "Bikes" | "Properties" | "Mobile" | "Vehicle Spares" | "Furniture";
     description: string;
 };
+
+// export type ProductPayload = {
+//     name: string;
+//     price: number;
+//     category: string;
+//     description: string;
+//     images: string[];
+// }
 
 
 export const uploadProduct = async (data: ProductForm) => {
@@ -41,5 +50,11 @@ export const getProductDetails = async (id: string) => {
 
 export const deleteProduct = async (id: string) => {
     const response = await api.delete(`/products/${id}`);
+    return response.data;
+}
+
+
+export const updateProduct = async (productId: string, data: ProductForm) => {
+    const response = await api.put(`/products/${productId}`, data);
     return response.data;
 }

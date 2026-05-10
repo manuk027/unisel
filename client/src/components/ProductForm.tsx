@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { useState, useMemo, useEffect, } from "react";
 import uploadImageToCloudinary from "../utils/cloudinaryUpload";
 import { useNavigate } from "react-router-dom";
-import { uploadProduct } from "../features/products/productAPI";
 import { toast } from "react-toastify";
 
 type FormType = {
@@ -14,19 +13,34 @@ type FormType = {
     description: string;
 };
 
-const ProductForm = () => {
+type ProductFormProps = {
+    initialData?: FormType & {
+        images?: string[];
+    };
+    isEdit?: boolean;
+    onSubmitHandler: (productData: {
+        name: string;
+        price: number;
+        category: FormType["category"];
+        description: string;
+        images: string[];
+    }) => Promise<void>;
+};
+
+const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductFormProps) => {
     const [uploading, setUploading] = useState<boolean>(false);
     const navigate = useNavigate();
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
+    const [existingImages, setExistingImages] = useState<string[]>(initialData?.images || []);
     const [imageError, setImageError] = useState("");
-    const { register, handleSubmit, formState: { errors }, } = useForm<FormType>();
+    const { register, handleSubmit, formState: { errors }, } = useForm<FormType>({ defaultValues: initialData, });
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (!files) return;
         setImageError("");
         const newFiles = Array.from(files);
-        if (selectedImages.length + newFiles.length > 4) {
+        if (existingImages.length + selectedImages.length + newFiles.length > 4) {
             setImageError("Maximum 4 images allowed");
             return;
         }
@@ -49,6 +63,11 @@ const ProductForm = () => {
     const removeImage = (index: number) => {
         setSelectedImages((prev) => prev.filter((_, i) => i !== index));
     };
+    const removeExistingImage = (index: number) => {
+        setExistingImages((prev) =>
+            prev.filter((_, i) => i !== index)
+        );
+    };
 
     const imagePreviews = useMemo(() => {
         return selectedImages.map((file) => URL.createObjectURL(file));
@@ -62,17 +81,18 @@ const ProductForm = () => {
     const onSubmit = async (data: FormType) => {
         try {
             setUploading(true);
-            if (selectedImages.length === 0) {
+            if (
+                existingImages.length === 0 &&
+                selectedImages.length === 0
+            ) {
                 setUploading(false);
                 setImageError("Please upload at least one image");
                 return;
             }
             const uploadedImageUrls = await Promise.all(selectedImages.map((file) => uploadImageToCloudinary(file)));
-            const productData = { name: data.name, price: data.price, category: data.category, description: data.description, images: uploadedImageUrls, };
-            const response = await uploadProduct(productData);
-            if (response) {
-                navigate("/");
-            }
+            const productData = { name: data.name, price: data.price, category: data.category, description: data.description, images: [...existingImages, ...uploadedImageUrls], };
+            await onSubmitHandler(productData);
+            navigate("/");
             toast.success("Product listed successfully", { containerId: "productToast", });
         } catch (error) {
             toast.error("Product listing Failed", { containerId: "productToast", });
@@ -85,7 +105,7 @@ const ProductForm = () => {
             <Navbar />
             <main className="max-w-6xl mx-auto px-4 py-8 md:py-12">
                 <div className="text-center mb-10">
-                    <h1 className="text-2xl md:text-4xl font-extrabold text-slate-900 mb-3">Add a product for sale</h1>
+                    <h1 className="text-2xl md:text-4xl font-extrabold text-slate-900 mb-3">{isEdit ? "Edit Product" : "Add a product for sale"}</h1>
                     <p className="text-xs text-slate-400">(Fill in the details below to listyour product on Unisel.)</p>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -196,28 +216,66 @@ const ProductForm = () => {
                                 </label>
                                 {imageError && (<p className="text-red-500 text-sm mt-2">{imageError}</p>)}
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-6">
-                                    {imagePreviews.length > 0 ? (
-                                        imagePreviews.map((preview, index) => (
-                                            <div key={index} className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 group">
-                                                <img src={preview} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
-                                                <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center text-xs font-bold">
-                                                    {index + 1}
+
+                                    {existingImages.length > 0 || imagePreviews.length > 0 ? (
+
+                                        <>
+                                            {existingImages.map((image, index) => (
+                                                <div
+                                                    key={image}
+                                                    className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 group"
+                                                >
+                                                    <img
+                                                        src={image}
+                                                        alt={`Existing ${index + 1}`}
+                                                        className="w-full h-full object-cover"
+                                                    />
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeExistingImage(index)}
+                                                        className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
+                                                    >
+                                                        <X size={14} />
+                                                    </button>
                                                 </div>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => removeImage(index)}
-                                                    className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
-                                                    <X size={14} />
-                                                </button>
-                                            </div>
-                                        ))
+                                            ))}
+
+                                            {imagePreviews.map((preview, index) => (
+                                                <div
+                                                    key={preview}
+                                                    className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 group"
+                                                >
+                                                    <img
+                                                        src={preview}
+                                                        alt={`Preview ${index + 1}`}
+                                                        className="w-full h-full object-cover"
+                                                    />
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeImage(index)}
+                                                        className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
+                                                    >
+                                                        <X size={14} />
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </>
+
                                     ) : (
+
                                         [1, 2, 3, 4].map((i) => (
-                                            <div key={i} className="aspect-square rounded-xl md:rounded-2xl bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-slate-300 text-sm">
+                                            <div
+                                                key={i}
+                                                className="aspect-square rounded-xl md:rounded-2xl bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-slate-300 text-sm"
+                                            >
                                                 {i}
                                             </div>
                                         ))
+
                                     )}
+
                                 </div>
                             </div>
                         </div>
@@ -225,7 +283,7 @@ const ProductForm = () => {
                     <div className="mt-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
                         <button type="submit" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-xl shadow-blue-100 transition-all transform active:scale-95">
                             <Tag size={18} />
-                            List Product
+                            {isEdit ? "Update Product" : "List Product"}
                         </button>
                         <button onClick={() => navigate("/")} type="button" className="text-slate-400 font-bold hover:text-slate-800 transition-colors">Cancel</button>
                     </div>
