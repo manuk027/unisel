@@ -27,7 +27,6 @@ export const registerUser = createAsyncThunk("auth/registerUser", async (data: {
 
 export const googleLogin = createAsyncThunk("auth/googleLogin", async (data: { email: string; name: string; googleId: string; avatar: string; }, thunkAPI) => {
     try {
-        console.log(data);
         return await googleLoginAPI(data);
     } catch (error: any) {
         return thunkAPI.rejectWithValue(error.response?.data?.message || "Google Login Failed.");
