@@ -14,9 +14,7 @@ type FormType = {
 };
 
 type ProductFormProps = {
-    initialData?: FormType & {
-        images?: string[];
-    };
+    initialData?: FormType & { images?: string[]; };
     isEdit?: boolean;
     onSubmitHandler: (productData: {
         name: string;
@@ -63,10 +61,9 @@ const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductF
     const removeImage = (index: number) => {
         setSelectedImages((prev) => prev.filter((_, i) => i !== index));
     };
+
     const removeExistingImage = (index: number) => {
-        setExistingImages((prev) =>
-            prev.filter((_, i) => i !== index)
-        );
+        setExistingImages((prev) => prev.filter((_, i) => i !== index));
     };
 
     const imagePreviews = useMemo(() => {
@@ -81,10 +78,7 @@ const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductF
     const onSubmit = async (data: FormType) => {
         try {
             setUploading(true);
-            if (
-                existingImages.length === 0 &&
-                selectedImages.length === 0
-            ) {
+            if (existingImages.length === 0 && selectedImages.length === 0) {
                 setUploading(false);
                 setImageError("Please upload at least one image");
                 return;
@@ -114,7 +108,6 @@ const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductF
                             <div className="flex-1 space-y-5 md:space-y-6">
                                 <div className="flex flex-col gap-2">
                                     <label className="text-sm font-bold text-slate-800 ml-1">Product Name</label>
-
                                     <input
                                         {...register("name", {
                                             required: "Name is required.",
@@ -123,12 +116,8 @@ const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductF
                                                 message: "Name should have atleast 3 characters.",
                                             },
                                         })}
-                                        type="text"
-                                        placeholder="Enter product name"
-                                        className="w-full px-5 py-3 md:py-4 rounded-xl md:rounded-2xl border border-slate-200 bg-[#F9FBFF] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-600 transition-all"
-                                    />
-                                    {errors.name && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>)}
+                                        type="text" placeholder="Enter product name" className="w-full px-5 py-3 md:py-4 rounded-xl md:rounded-2xl border border-slate-200 bg-[#F9FBFF] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-600 transition-all" />
+                                    {errors.name && (<p className="text-red-500 text-sm mt-1">{errors.name.message}</p>)}
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <label className="text-sm font-bold text-slate-800 ml-1">Price (Rs.)</label>
@@ -141,9 +130,7 @@ const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductF
                                                 message: "Price must be greater than 0.",
                                             },
                                         })}
-                                        type="number"
-                                        placeholder="Enter price"
-                                        className="w-full px-5 py-3 md:py-4 rounded-xl md:rounded-2xl border border-slate-200 bg-[#F9FBFF] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-600 transition-all" />
+                                        type="number" placeholder="Enter price" className="w-full px-5 py-3 md:py-4 rounded-xl md:rounded-2xl border border-slate-200 bg-[#F9FBFF] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-600 transition-all" />
                                     {errors.price && (<p className="text-red-500 text-sm mt-1">{errors.price.message}</p>)}
                                 </div>
                                 <div className="flex flex-col gap-2">
@@ -181,9 +168,7 @@ const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductF
                                                 validate: (desc) => desc.trim().length > 50 || "Description must contain atleast 50 characters.",
                                             }
                                         )}
-                                        rows={4}
-                                        placeholder="Describe your product, its condition, features, etc."
-                                        className="w-full px-5 py-3 md:py-4 rounded-xl md:rounded-2xl border border-slate-200 bg-[#F9FBFF] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-600 transition-all resize-none" />
+                                        rows={4} placeholder="Describe your product, its condition, features, etc." className="w-full px-5 py-3 md:py-4 rounded-xl md:rounded-2xl border border-slate-200 bg-[#F9FBFF] focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-600 transition-all resize-none" />
                                     {errors.description && (<p className="text-red-500 text-sm mt-1">{errors.description.message}</p>)}
                                 </div>
                             </div>
@@ -216,66 +201,32 @@ const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductF
                                 </label>
                                 {imageError && (<p className="text-red-500 text-sm mt-2">{imageError}</p>)}
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-6">
-
                                     {existingImages.length > 0 || imagePreviews.length > 0 ? (
-
                                         <>
                                             {existingImages.map((image, index) => (
-                                                <div
-                                                    key={image}
-                                                    className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 group"
-                                                >
-                                                    <img
-                                                        src={image}
-                                                        alt={`Existing ${index + 1}`}
-                                                        className="w-full h-full object-cover"
-                                                    />
-
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => removeExistingImage(index)}
-                                                        className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
-                                                    >
+                                                <div key={image} className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 group">
+                                                    <img src={image} alt={`Existing ${index + 1}`} className="w-full h-full object-cover" />
+                                                    <button type="button" onClick={() => removeExistingImage(index)} className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
                                                         <X size={14} />
                                                     </button>
                                                 </div>
                                             ))}
-
                                             {imagePreviews.map((preview, index) => (
-                                                <div
-                                                    key={preview}
-                                                    className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 group"
-                                                >
-                                                    <img
-                                                        src={preview}
-                                                        alt={`Preview ${index + 1}`}
-                                                        className="w-full h-full object-cover"
-                                                    />
-
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => removeImage(index)}
-                                                        className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
-                                                    >
+                                                <div key={preview} className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 group">
+                                                    <img src={preview} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
+                                                    <button type="button" onClick={() => removeImage(index)} className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
                                                         <X size={14} />
                                                     </button>
                                                 </div>
                                             ))}
                                         </>
-
                                     ) : (
-
                                         [1, 2, 3, 4].map((i) => (
-                                            <div
-                                                key={i}
-                                                className="aspect-square rounded-xl md:rounded-2xl bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-slate-300 text-sm"
-                                            >
+                                            <div key={i} className="aspect-square rounded-xl md:rounded-2xl bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-slate-300 text-sm">
                                                 {i}
                                             </div>
                                         ))
-
                                     )}
-
                                 </div>
                             </div>
                         </div>
@@ -289,7 +240,7 @@ const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductF
                     </div>
                 </form>
             </main>
-        </div>
+        </div >
     );
 };
 

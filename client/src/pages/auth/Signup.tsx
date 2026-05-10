@@ -113,30 +113,16 @@ const SignUpPage = () => {
                                             "Invalid email format",
                                     },
                                 })}
-                                type="email"
-                                placeholder="Enter your email"
-                                className="w-full bg-gray-50/50 border border-gray-100 rounded-2xl py-2.5 pl-11 pr-4 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
-                            />
+                                type="email" placeholder="Enter your email" className="w-full bg-gray-50/50 border border-gray-100 rounded-2xl py-2.5 pl-11 pr-4 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all" />
                         </div>
-
-                        {errors.email && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {errors.email.message}
-                            </p>
-                        )}
+                        {errors.email && (<p className="text-red-500 text-sm mt-1">{errors.email.message}</p>)}
                     </div>
-
-                    {/* Phone */}
                     <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-700 ml-1 uppercase">
-                            Phone Number
-                        </label>
-
+                        <label className="text-[10px] font-bold text-slate-700 ml-1 uppercase">Phone Number</label>
                         <div className="relative group">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors">
                                 <i className="fa-solid fa-phone-flip text-xs"></i>
                             </span>
-
                             <input
                                 {...register("phone", {
                                     required: {
@@ -165,25 +151,14 @@ const SignUpPage = () => {
                                 className="w-full bg-gray-50/50 border border-gray-100 rounded-2xl py-2.5 pl-11 pr-4 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
                             />
                         </div>
-
-                        {errors.phone && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {errors.phone.message}
-                            </p>
-                        )}
+                        {errors.phone && (<p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>)}
                     </div>
-
-                    {/* Password */}
                     <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-700 ml-1 uppercase">
-                            Password
-                        </label>
-
+                        <label className="text-[10px] font-bold text-slate-700 ml-1 uppercase">Password</label>
                         <div className="relative group">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors">
                                 <i className="fa-solid fa-lock text-sm"></i>
                             </span>
-
                             <input
                                 {...register("password", {
                                     required: {
@@ -208,49 +183,20 @@ const SignUpPage = () => {
                                             "Password must contain uppercase, lowercase, number and special character",
                                     },
                                 })}
-                                type={
-                                    showPassword
-                                        ? "text"
-                                        : "password"
-                                }
-                                placeholder="Create a password"
-                                className="w-full bg-gray-50/50 border border-gray-100 rounded-2xl py-2.5 pl-11 pr-12 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
-                            />
-
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setShowPassword(!showPassword)
-                                }
-                                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600 transition-colors"
-                            >
-                                <i
-                                    className={`fa-solid ${showPassword
-                                        ? "fa-eye-slash"
-                                        : "fa-eye"
-                                        } text-xs`}
-                                ></i>
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Create a password" className="w-full bg-gray-50/50 border border-gray-100 rounded-2xl py-2.5 pl-11 pr-12 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all" />
+                            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600 transition-colors">
+                                <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"} text-xs`}></i>
                             </button>
                         </div>
-
-                        {errors.password && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {errors.password.message}
-                            </p>
-                        )}
+                        {errors.password && (<p className="text-red-500 text-sm mt-1">{errors.password.message}</p>)}
                     </div>
-
-                    {/* Confirm Password */}
                     <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-700 ml-1 uppercase">
-                            Confirm Password
-                        </label>
-
+                        <label className="text-[10px] font-bold text-slate-700 ml-1 uppercase">Confirm Password</label>
                         <div className="relative group">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors">
                                 <i className="fa-solid fa-shield-check text-sm"></i>
                             </span>
-
                             <input
                                 {...register("confirm", {
                                     required: {
@@ -267,50 +213,20 @@ const SignUpPage = () => {
                                         ? "text"
                                         : "password"
                                 }
-                                placeholder="Confirm your password"
-                                className="w-full bg-gray-50/50 border border-gray-100 rounded-2xl py-2.5 pl-11 pr-12 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
-                            />
-
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setShowConfirmPassword(
-                                        !showConfirmPassword
-                                    )
-                                }
-                                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600 transition-colors"
-                            >
-                                <i
-                                    className={`fa-solid ${showConfirmPassword
-                                        ? "fa-eye-slash"
-                                        : "fa-eye"
-                                        } text-xs`}
-                                ></i>
+                                placeholder="Confirm your password" className="w-full bg-gray-50/50 border border-gray-100 rounded-2xl py-2.5 pl-11 pr-12 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all" />
+                            <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600 transition-colors">
+                                <i className={`fa-solid ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"} text-xs`}></i>
                             </button>
                         </div>
-
-                        {errors.confirm && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {errors.confirm.message}
-                            </p>
-                        )}
+                        {errors.confirm && (<p className="text-red-500 text-sm mt-1">{errors.confirm.message}</p>)}
                     </div>
-                    {
-                        error && (
-                            <p className="text-red-500 text-sm text-center">
-                                {error}
-                            </p>
-                        )
-                    }
-                    <button disabled={loading} className="w-full bg-blue-600 text-white font-bold py-3 rounded-2xl shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all transform active:scale-[0.98] mt-2 shrink-0">
-                        Create Account
-                    </button>
+                    {error && (<p className="text-red-500 text-sm text-center">{error}</p>)}
+                    <button disabled={loading} className="w-full bg-blue-600 text-white font-bold py-3 rounded-2xl shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all transform active:scale-[0.98] mt-2 shrink-0">Create Account</button>
                 </form>
                 <div className="relative my-4 shrink-0">
                     <div className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-gray-100"></div>
                     </div>
-
                     <div className="relative flex justify-center text-[10px] uppercase tracking-widest font-bold text-gray-400">
                         <span className="bg-white px-4">or</span>
                     </div>

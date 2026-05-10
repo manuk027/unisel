@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Smartphone, BookOpen, Shirt, PawPrint, Car, Bike, Building2, MonitorSmartphone, Wrench, Sofa, } from "lucide-react";
-
 import Navbar from "../components/Navbar";
 
 const categories = [Smartphone, BookOpen, Shirt, PawPrint, Car, Bike, Building2, MonitorSmartphone, Wrench, Sofa,];
@@ -24,7 +23,6 @@ const NotFound = () => {
             }
             setCount(start);
         }, 20);
-
         return () => clearInterval(counter);
     }, []);
 

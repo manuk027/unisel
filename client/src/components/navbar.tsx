@@ -46,19 +46,14 @@ const Navbar = () => {
                                 <i className="fa-solid fa-cart-shopping"></i>
                                 {cartCount > 0 && (<span className="absolute -top-2 -right-3 bg-red-500 text-white text-[10px] min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center font-semibold">{cartCount}</span>)}
                             </div>
-
                             Cart
                         </Link>
                     </nav>
                     <div className="hidden md:flex items-center space-x-6">
                         {!token ? (
                             <>
-                                <Link to="/login" className="text-gray-700 hover:text-blue-600 font-medium">
-                                    Login
-                                </Link>
-                                <Link to="/register" className="px-5 py-2 bg-blue-600 text-white rounded-xl">
-                                    Sign Up
-                                </Link>
+                                <Link to="/login" className="text-gray-700 hover:text-blue-600 font-medium">Login</Link>
+                                <Link to="/register" className="px-5 py-2 bg-blue-600 text-white rounded-xl">Sign Up</Link>
                             </>
                         ) : (
                             <>

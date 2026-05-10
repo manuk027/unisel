@@ -32,9 +32,7 @@ const CartItem = ({ item }: { item: CartItemType }) => {
                 <div className="flex items-center justify-between w-full sm:w-auto gap-5">
                     <div className="flex flex-col items-center gap-1">
                         <span className="text-xs text-gray-400">Quantity</span>
-                        <div className="border border-gray-200 rounded-md px-3 py-1 bg-white">
-                            <span className="font-medium">1</span>
-                        </div>
+                        <div className="border border-gray-200 rounded-md px-3 py-1 bg-white"><span className="font-medium">1</span></div>
                     </div>
                     <div className="text-right min-w-[90px]">
                         <p className="font-bold text-gray-900">Rs.{product?.price?.toLocaleString()}</p>

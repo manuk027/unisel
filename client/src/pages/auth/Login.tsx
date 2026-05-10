@@ -89,9 +89,7 @@ const LoginPage = () => {
           <div className="space-y-1">
             <div className="flex justify-between items-center px-1">
               <label className="text-[10px] font-bold text-slate-700 uppercase tracking-wider">Password</label>
-              <button type="button" className="text-blue-600 text-[10px] font-bold hover:underline">
-                Forgot?
-              </button>
+              {/* <button type="button" className="text-blue-600 text-[10px] font-bold hover:underline">Forgot?</button> */}
             </div>
             <div className="relative group">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors">
@@ -104,26 +102,15 @@ const LoginPage = () => {
                     message: "Password is required.",
                   },
                 })}
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
-                className="w-full bg-gray-50/50 border border-gray-100 rounded-2xl py-3.5 pl-11 pr-12 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
-              />
+                type={showPassword ? "text" : "password"} placeholder="Enter your password" className="w-full bg-gray-50/50 border border-gray-100 rounded-2xl py-3.5 pl-11 pr-12 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all" />
               {errors.password && (<p className="text-red-500 text-sm mt-1">{errors.password.message}</p>)}
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600 transition-colors"
-              >
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600 transition-colors">
                 <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"} text-xs`}></i>
               </button>
             </div>
           </div>
           {error && (<p className="text-red-500 text-sm text-center">{error}</p>)}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all transform active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
-          >
+          <button type="submit" disabled={loading} className="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all transform active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed">
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
@@ -135,19 +122,13 @@ const LoginPage = () => {
             <span className="bg-white px-4">or continue with</span>
           </div>
         </div>
-        <button
-          onClick={handleGoogleLogin}
-          disabled={loading}
-          className="w-full shrink-0 flex items-center justify-center gap-3 bg-white border border-gray-100 py-3.5 rounded-2xl hover:bg-gray-50 transition-all font-bold text-slate-700 text-sm shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
-        >
+        <button onClick={handleGoogleLogin} disabled={loading} className="w-full shrink-0 flex items-center justify-center gap-3 bg-white border border-gray-100 py-3.5 rounded-2xl hover:bg-gray-50 transition-all font-bold text-slate-700 text-sm shadow-sm disabled:opacity-70 disabled:cursor-not-allowed">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-5 h-5" alt="Google Icon" />
           Continue with Google
         </button>
         <p className="text-center mt-8 text-gray-500 text-xs md:text-sm font-medium shrink-0">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-blue-600 font-bold hover:underline">
-            Sign Up
-          </Link>
+          <Link to="/signup" className="text-blue-600 font-bold hover:underline">Sign Up</Link>
         </p>
       </div>
     </div>
