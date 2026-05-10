@@ -58,9 +58,9 @@ const updateProduct = async (id: string, data: UpdateProductDTO) => {
         updateData.description = data.description.trim();
     }
     if (data.images !== undefined) {
-        if (data.images.length < 4) throw new Error("Atleast 1 images is mandatory.");
+        if (data.images.length < 1) throw new Error("At least 1 image is mandatory.");
         if (data.images.length > 4) throw new Error("Upload no more than 4 images.");
-        updateData.image = data.images;
+        updateData.images = data.images;
     }
     if (data.price !== undefined) {
         const price = Number(data.price);

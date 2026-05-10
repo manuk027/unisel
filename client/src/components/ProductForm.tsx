@@ -33,6 +33,12 @@ const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductF
     const [imageError, setImageError] = useState("");
     const { register, handleSubmit, formState: { errors }, } = useForm<FormType>({ defaultValues: initialData, });
 
+    useEffect(() => {
+        if (initialData?.images) {
+            setExistingImages(initialData.images);
+        }
+    }, [initialData]);
+
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (!files) return;
@@ -97,7 +103,7 @@ const ProductForm = ({ initialData, isEdit = false, onSubmitHandler, }: ProductF
     return (
         <div className="min-h-screen bg-[#F8FAFC]">
             <Navbar />
-            <main className="max-w-6xl mx-auto px-4 py-8 md:py-12">
+            <main className="max-w-6xl mx-auto px-4 py-8 pb-32 md:pb-12 md:py-12">
                 <div className="text-center mb-10">
                     <h1 className="text-2xl md:text-4xl font-extrabold text-slate-900 mb-3">{isEdit ? "Edit Product" : "Add a product for sale"}</h1>
                     <p className="text-xs text-slate-400">(Fill in the details below to listyour product on Unisel.)</p>
